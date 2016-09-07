@@ -37,7 +37,7 @@ class PingdomClient
     my = this
     my.request msg, 'actions?limit=10', (response) ->
       if response.actions.length > 0
-        lines = ["Here are the most recent 10 Pingdodm alerts:"]
+        lines = ["Here are the most recent 10 Pingdom alerts:"]
         for alert in response.actions
           lines.push "    At: #{new Date(alert.time).toISOString()}. Message: #{alert.messagefull}"
         msg.send lines.join('\n')
