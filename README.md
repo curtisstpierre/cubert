@@ -1,2 +1,2 @@
 # cubert
-A totally harmless xMatters robot
+A totally harmless hubot.
