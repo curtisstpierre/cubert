@@ -83,7 +83,7 @@ class PingdomClient
             return
           handler content
 
-client = new PingdomClient(username, password, app_key, watch_interval)
+client = new PingdomClient(username, password, app_key)
 
 module.exports = (robot) ->
   robot.respond /pingdom checks/i, (msg) ->
