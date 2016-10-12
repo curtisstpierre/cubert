@@ -86,6 +86,7 @@ class IKnowClient
     else
       msg.send "You don't know anything"
 
+
   # Search for any users who may know about a thing
   search: (msg, knowledge) ->
     who_knows = known.get(knowledge) || []
@@ -94,19 +95,22 @@ class IKnowClient
     other_known_things = known.all().filter (key) -> key isnt knowledge
 
     matching_knowledge = require('fuzzaldrin').filter(other_known_things, knowledge)
-    approximate_knowers = []
+    approximate_knowers = {}
 
     for key in matching_knowledge
-      approximate_knowers.concat known.get(key)
+      for user in known.get(key)
+        approximate_knowers[user] ?= []
+        approximate_knowers[user].push key
 
     msg_lines = []
 
     if who_knows.length > 0
       msg_lines = ["Pork at any of these people for help:\n"].concat who_knows.sort()
 
-    if approximate_knowers.length > 0
+    if Object.keys(approximate_knowers).length > 0
       msg_lines.push "These people *might* be able to help:\n"
-      msg_lines.concat approximate_knowers.sort().unique()
+      for user in Object.keys(approximate_knowers).sort()
+        msg_lines.push "#{user} (#{approximate_knowers[user].join(', ')})"
 
     if msg_lines.length == 0
       msg_lines.push "Nobody knows about #{knowledge}"
