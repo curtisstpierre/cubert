@@ -16,6 +16,7 @@
 # Commands:
 #   hubot i know about [thing] - register yourself for a mention whenever someone asks about [thing]
 #   hubot i know nothing about [thing] - deregister yourself from mentions about [thing]
+#   hubot @USER knows about [thing] - registers a user whenever someone asks about [thing]
 #   hubot what do i know - list all of the things you know about
 #   hubot who knows about [thing] - find a list of people who know about [thing]
 
@@ -134,6 +135,9 @@ module.exports = (robot) ->
 
   robot.respond /what do i know/i, (msg) ->
     client.list(msg, get_username(msg))
+
+  robot.respond /(@[^\s]+) knows about (.*)/i, (msg) ->
+    client.register(msg, msg.match[1], msg.match[2])
 
   robot.respond /who knows about (.*)/i, (msg) ->
     knowledge = msg.match[1].toLowerCase().replace(/\s\s+/g, ' ')
